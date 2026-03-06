@@ -43,6 +43,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <>
+              <NotificationBell />
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/profile">Profile</Link>
               </Button>
