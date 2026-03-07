@@ -53,6 +53,42 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_preferences: {
+        Row: {
+          created_at: string
+          deposit_confirmed: boolean
+          deposit_rejected: boolean
+          id: string
+          roi_payout: boolean
+          updated_at: string
+          user_id: string
+          withdrawal_approved: boolean
+          withdrawal_rejected: boolean
+        }
+        Insert: {
+          created_at?: string
+          deposit_confirmed?: boolean
+          deposit_rejected?: boolean
+          id?: string
+          roi_payout?: boolean
+          updated_at?: string
+          user_id: string
+          withdrawal_approved?: boolean
+          withdrawal_rejected?: boolean
+        }
+        Update: {
+          created_at?: string
+          deposit_confirmed?: boolean
+          deposit_rejected?: boolean
+          id?: string
+          roi_payout?: boolean
+          updated_at?: string
+          user_id?: string
+          withdrawal_approved?: boolean
+          withdrawal_rejected?: boolean
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string
@@ -300,6 +336,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      user_wants_email: {
+        Args: { p_event_type: string; p_user_id: string }
         Returns: boolean
       }
     }
