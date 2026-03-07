@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, Shield, Edit2 } from "lucide-react";
+import { User, Mail, Phone, Shield, Edit2, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -100,6 +100,15 @@ const ProfilePage = () => {
               </div>
             </div>
             {editing && <Button variant="gold" size="sm" className="mt-6" onClick={handleSave}>Save Changes</Button>}
+          </div>
+
+          <div className="glass-card rounded-xl p-6 mb-6">
+            <h2 className="font-display font-semibold text-foreground mb-4 flex items-center gap-2"><Bell size={18} className="text-primary" /> Notifications</h2>
+            <div className="space-y-3">
+              <Button variant="gold-outline" size="sm" className="w-full justify-start" onClick={() => navigate("/notifications/preferences")}>
+                <Mail size={14} className="mr-2" /> Email Notification Preferences
+              </Button>
+            </div>
           </div>
 
           <div className="glass-card rounded-xl p-6">
