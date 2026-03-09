@@ -9,6 +9,7 @@ import NotificationBell from "@/components/NotificationBell";
 const navItems = [
   { label: "Home", path: "/" },
   { label: "Dashboard", path: "/dashboard" },
+  { label: "Transactions", path: "/transactions" },
   { label: "Referral", path: "/referral" },
   { label: "Deposit", path: "/deposit" },
   { label: "Withdrawal", path: "/withdrawal" },
