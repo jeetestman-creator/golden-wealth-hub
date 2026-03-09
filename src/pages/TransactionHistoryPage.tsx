@@ -44,6 +44,8 @@ const TransactionHistoryPage = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
     if (!loading && !user) navigate("/login");
