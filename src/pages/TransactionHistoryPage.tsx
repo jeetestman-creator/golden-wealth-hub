@@ -121,55 +121,101 @@ const TransactionHistoryPage = () => {
     if (filtered.length === 0) {
       return <p className="text-muted-foreground text-sm py-8 text-center">No transactions found.</p>;
     }
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+    const page = Math.min(currentPage, totalPages);
+    const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
     return (
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="text-left text-sm text-muted-foreground border-b border-border/50">
-              <th className="pb-3 font-medium">Type</th>
-              <th className="pb-3 font-medium">Amount</th>
-              <th className="pb-3 font-medium">Net</th>
-              <th className="pb-3 font-medium">Fee</th>
-              <th className="pb-3 font-medium">Date</th>
-              <th className="pb-3 font-medium">Details</th>
-              <th className="pb-3 font-medium">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map(tx => (
-              <tr key={tx.id} className="border-b border-border/30 last:border-0 hover:bg-secondary/30 transition-colors">
-                <td className="py-3 text-sm text-foreground">
-                  <span className="flex items-center gap-2">
-                    <span className="text-primary">{typeIcons[tx.type]}</span>
-                    <span className="capitalize">{tx.type === "roi" ? "ROI Payout" : tx.type}</span>
-                  </span>
-                </td>
-                <td className={`py-3 text-sm font-medium ${tx.type === "withdrawal" ? "text-red-400" : "text-green-400"}`}>
-                  {tx.type === "withdrawal" ? "-" : "+"}${tx.amount.toFixed(2)}
-                </td>
-                <td className="py-3 text-sm text-muted-foreground">
-                  {tx.netAmount !== undefined ? `$${tx.netAmount.toFixed(2)}` : "—"}
-                </td>
-                <td className="py-3 text-sm text-muted-foreground">
-                  {tx.fee !== undefined && tx.fee > 0 ? `$${tx.fee.toFixed(2)}` : "—"}
-                </td>
-                <td className="py-3 text-sm text-muted-foreground">
-                  {format(new Date(tx.date), "MMM dd, yyyy HH:mm")}
-                </td>
-                <td className="py-3 text-sm text-muted-foreground max-w-[150px] truncate">
-                  {tx.network && <span className="text-xs bg-secondary px-2 py-0.5 rounded mr-1">{tx.network}</span>}
-                  {tx.forMonth && <span className="text-xs bg-secondary px-2 py-0.5 rounded">{tx.forMonth}</span>}
-                  {tx.walletAddress && <span className="text-xs font-mono">{tx.walletAddress.slice(0, 10)}…</span>}
-                </td>
-                <td className="py-3">
-                  <span className={`text-xs px-2 py-1 rounded-full font-medium capitalize ${statusColors[tx.status] ?? "bg-secondary text-muted-foreground"}`}>
-                    {tx.status}
-                  </span>
-                </td>
+      <div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="text-left text-sm text-muted-foreground border-b border-border/50">
+                <th className="pb-3 font-medium">Type</th>
+                <th className="pb-3 font-medium">Amount</th>
+                <th className="pb-3 font-medium">Net</th>
+                <th className="pb-3 font-medium">Fee</th>
+                <th className="pb-3 font-medium">Date</th>
+                <th className="pb-3 font-medium">Details</th>
+                <th className="pb-3 font-medium">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {paginated.map(tx => (
+                <tr key={tx.id} className="border-b border-border/30 last:border-0 hover:bg-secondary/30 transition-colors">
+                  <td className="py-3 text-sm text-foreground">
+                    <span className="flex items-center gap-2">
+                      <span className="text-primary">{typeIcons[tx.type]}</span>
+                      <span className="capitalize">{tx.type === "roi" ? "ROI Payout" : tx.type}</span>
+                    </span>
+                  </td>
+                  <td className={`py-3 text-sm font-medium ${tx.type === "withdrawal" ? "text-red-400" : "text-green-400"}`}>
+                    {tx.type === "withdrawal" ? "-" : "+"}${tx.amount.toFixed(2)}
+                  </td>
+                  <td className="py-3 text-sm text-muted-foreground">
+                    {tx.netAmount !== undefined ? `$${tx.netAmount.toFixed(2)}` : "—"}
+                  </td>
+                  <td className="py-3 text-sm text-muted-foreground">
+                    {tx.fee !== undefined && tx.fee > 0 ? `$${tx.fee.toFixed(2)}` : "—"}
+                  </td>
+                  <td className="py-3 text-sm text-muted-foreground">
+                    {format(new Date(tx.date), "MMM dd, yyyy HH:mm")}
+                  </td>
+                  <td className="py-3 text-sm text-muted-foreground max-w-[150px] truncate">
+                    {tx.network && <span className="text-xs bg-secondary px-2 py-0.5 rounded mr-1">{tx.network}</span>}
+                    {tx.forMonth && <span className="text-xs bg-secondary px-2 py-0.5 rounded">{tx.forMonth}</span>}
+                    {tx.walletAddress && <span className="text-xs font-mono">{tx.walletAddress.slice(0, 10)}…</span>}
+                  </td>
+                  <td className="py-3">
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium capitalize ${statusColors[tx.status] ?? "bg-secondary text-muted-foreground"}`}>
+                      {tx.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/30">
+            <p className="text-xs text-muted-foreground">
+              Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={page <= 1}
+                onClick={() => setCurrentPage(p => p - 1)}
+              >
+                <ChevronLeft size={14} className="mr-1" /> Prev
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 1)
+                .map((p, idx, arr) => (
+                  <span key={p}>
+                    {idx > 0 && arr[idx - 1] !== p - 1 && <span className="text-muted-foreground text-xs px-1">…</span>}
+                    <Button
+                      variant={p === page ? "gold" : "ghost"}
+                      size="sm"
+                      className="w-8 h-8 p-0"
+                      onClick={() => setCurrentPage(p)}
+                    >
+                      {p}
+                    </Button>
+                  </span>
+                ))}
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={page >= totalPages}
+                onClick={() => setCurrentPage(p => p + 1)}
+              >
+                Next <ChevronRight size={14} className="ml-1" />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
