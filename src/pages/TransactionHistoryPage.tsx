@@ -116,6 +116,9 @@ const TransactionHistoryPage = () => {
   const filterTx = (txs: TransactionItem[]) =>
     statusFilter === "all" ? txs : txs.filter(t => t.status === statusFilter);
 
+  // Reset page when filter changes
+  useEffect(() => { setCurrentPage(1); }, [statusFilter]);
+
   const renderTable = (transactions: TransactionItem[]) => {
     const filtered = filterTx(transactions);
     if (filtered.length === 0) {
