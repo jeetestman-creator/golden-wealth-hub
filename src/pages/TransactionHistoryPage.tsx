@@ -51,6 +51,9 @@ const TransactionHistoryPage = () => {
     if (!loading && !user) navigate("/login");
   }, [user, loading, navigate]);
 
+  // Reset page when filter changes
+  useEffect(() => { setCurrentPage(1); }, [statusFilter]);
+
   const { data: deposits } = useQuery({
     queryKey: ["deposits", user?.id],
     queryFn: async () => {
