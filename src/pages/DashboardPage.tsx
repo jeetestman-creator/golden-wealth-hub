@@ -123,7 +123,12 @@ const DashboardPage = () => {
           </div>
 
           <div className="glass-card rounded-xl p-6">
-            <h2 className="font-display font-semibold text-foreground mb-4">Recent Transactions</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-display font-semibold text-foreground">Recent Transactions</h2>
+              <Button variant="gold-outline" size="sm" asChild>
+                <Link to="/transactions">View All</Link>
+              </Button>
+            </div>
             {recentTx.length === 0 ? (
               <p className="text-muted-foreground text-sm">No transactions yet. Make your first deposit to get started!</p>
             ) : (

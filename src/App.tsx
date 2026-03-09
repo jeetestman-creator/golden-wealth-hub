@@ -15,6 +15,7 @@ import WithdrawalPage from "./pages/WithdrawalPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminPage from "./pages/AdminPage";
 import NotificationPreferencesPage from "./pages/NotificationPreferencesPage";
+import TransactionHistoryPage from "./pages/TransactionHistoryPage";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/deposit" element={<DepositPage />} />
             <Route path="/withdrawal" element={<WithdrawalPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/transactions" element={<TransactionHistoryPage />} />
             <Route path="/notifications/preferences" element={<NotificationPreferencesPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="*" element={<NotFound />} />
