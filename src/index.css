@@ -109,4 +109,9 @@
   .hero-glow {
     background: radial-gradient(ellipse at center, hsla(43, 76%, 53%, 0.15) 0%, transparent 70%);
   }
+
+  /* Hide Lovable badge */
+  #lovable-badge {
+    display: none !important;
+  }
 }
